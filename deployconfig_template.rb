@@ -1,6 +1,11 @@
 # Rails template appication file for  gem 'deployconfig'
 #USAGE
-#rails new app_name -m template.rb
+# For local usage:
+# git clone https://github.com/Sergey-B/rails_templates
+# rails new app_name -m ./rails_templates/deployconfig_template.rb
+# 
+# From github
+# rails new app_name -m https://github.com/Sergey-B/rails_templates/raw/master/deployconfig_template.rb
 
 application_name = ARGV[0]
 
@@ -56,7 +61,7 @@ file 'config/deploy.rb', <<-CODE
 # encoding: utf-8
 require 'deploy_config'
 set :application, "#{ARGV[0]}"
-set :git_application_name, application
+set :git_application_name, "#{ARGV[0]}"
 
 set :symlinks,  [
   { label: :db, path: 'config/database.yml' },
@@ -67,9 +72,9 @@ set :use_sudo, false
 set :stages, %w(testing production)
 default_run_options[:pty] = true
 set :rbenv_ruby_version, '2.0.0-p451'
-set :repository, "git@git.snpdev.ru:saltpepper/#{git_application_name}.git"
+set :repository, "git@git.snpdev.ru:saltpepper/#{ARGV[0]}.git"
 set :bundle_flags, '--deployment'
-set :ssh_default_dir, "/var/www/#{application}/ss/current"
+set :ssh_default_dir, "/var/www/#{ARGV[0]}/ss/current"
 
 CODE
 
